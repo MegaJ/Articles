@@ -4,7 +4,7 @@
 You have a constructor function, and you want reasonable defaults for when certain fields if the options are missing, set to `undefined`, or `null`. You may want to save the settings of the option object into `this` in your constructor as well.
 
 tl;dr:
-* Not worth it, because destructuring throws exceptions on null destructuring targets.
+* Not worth it, because destructuring throws exceptions on null destructuring sources.
 * Destructuring for options is still a fine way to do things, but not in the parameter list.
 
 ## Requirements
@@ -110,13 +110,14 @@ const MyStream = function({
 // ... function body
 }
 
-var instance = new MyStream({verbose: true});
+var instance = publicFacingFunction({verbose: true});
+// {verbose: true, hyperMode: true}
 
+instance = publicFacingFunction({});
+// {verbose: false, hyperMode: true}
 
-instance = new MyStream({});
-
-
-instance = new MyStream(null);
+instance = publicFacingFunction(null);
+// {verbose: false, hyperMode: true}
 ```
 
 But if you're doing that, why not just do it without the wrapper like so?:
